@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div>
+    <div>text
+      <h1>Header</h1>
     </div>
   );
 }
