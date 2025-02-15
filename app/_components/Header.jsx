@@ -1,10 +1,23 @@
+"use client"
+
 import { LayoutGrid, Search, ShoppingBag } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import GlobalApi from '../_utils/GlobalApi'
 
 const Header = () => {
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(()=>{
+    getCategoryList();
+  },[])
+
+  const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
+
+  const baseURL = process.env.NEXT_PUBLIC_STRAPI_URL
+
   return (
     <div className='flex justify-between p-5 shadow-md'>
         <div className='flex items-center gap-8'>
@@ -24,10 +37,18 @@ const Header = () => {
               <DropdownMenuContent>
                 <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                {categoryList.map((category, index) => (
+                  <DropdownMenuItem key={index} className="flex gap-2 items-center">
+                   <Image 
+                      src={baseURL + category?.icon?.url}
+                      alt='icon' 
+                      width={25} 
+                      height={25}
+                      unoptimized={true}
+                    />
+                    <h2>{category?.name}</h2>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
