@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import GlobalApi from '../_utils/GlobalApi'
+import { STRAPI_BASE_URL } from "@/config";
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -15,8 +16,6 @@ const Header = () => {
   },[])
 
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
-
-  const baseURL = process.env.NEXT_PUBLIC_STRAPI_URL
 
   return (
     <div className='flex justify-between p-5 shadow-md'>
@@ -40,7 +39,7 @@ const Header = () => {
                 {categoryList.map((category, index) => (
                   <DropdownMenuItem key={index} className="flex gap-2 items-center">
                    <Image 
-                      src={baseURL + category?.icon?.url}
+                      src={STRAPI_BASE_URL + category?.icon?.url}
                       alt='icon' 
                       width={25} 
                       height={25}

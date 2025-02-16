@@ -1,7 +1,9 @@
+import { STRAPI_BASE_URL } from "@/config";
+
 const { default: axios } = require("axios");
 
 const axiosClient = axios.create({
-    baseURL: 'http://127.0.0.1:1337/api'
+    baseURL: `${STRAPI_BASE_URL}/api`,
 })
 
 const getCategory = () => axiosClient.get('/categories?populate=*')
