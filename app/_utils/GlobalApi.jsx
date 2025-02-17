@@ -8,6 +8,11 @@ const axiosClient = axios.create({
 
 const getCategory = () => axiosClient.get('/categories?populate=*')
 
+const getCategoryList = async () => {
+    const resp = await axiosClient.get('/categories?populate=*');
+    return resp.data.data;
+}
+
 const getSliders = async () => {
     const resp = await axiosClient.get('/sliders?populate=*');
     return resp.data.data;
@@ -15,5 +20,6 @@ const getSliders = async () => {
 
 export default {
     getCategory,
-    getSliders
+    getSliders,
+    getCategoryList
 }
