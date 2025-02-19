@@ -18,8 +18,14 @@ const getSliders = async () => {
     return resp.data.data;
 }
 
+const getAllProducts = async () => {
+    const resp = await axiosClient.get('/products?populate=*');
+    return resp.data.data;
+}
+
 export default {
     getCategory,
     getSliders,
-    getCategoryList
+    getCategoryList,
+    getAllProducts
 }
