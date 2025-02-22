@@ -7,9 +7,9 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
-    DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+import ProductItemDetail from './ProductItemDetail'
   
 
 const ProductItem = ({product}) => {
@@ -41,10 +41,8 @@ const ProductItem = ({product}) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
                 <DialogDescription>
-                    This action cannot be undone. This will permanently delete your account
-                    and remove your data from our servers.
+                    <ProductItemDetail product={product} />
                 </DialogDescription>
                 </DialogHeader>
             </DialogContent>
