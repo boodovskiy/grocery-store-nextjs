@@ -1,10 +1,14 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { STRAPI_BASE_URL } from '@/config'
 import { ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 const ProductItemDetail = ({product}) => {
+  const [productTotalPrice, setProductTotalPrice] = useState(product.sellingPrice ? product.sellingPrice : product.mrp)
+  const [quantity, setQuantity] = useState(1)
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 p-7 bg-white text-black'>
       <Image src={STRAPI_BASE_URL + product.images[0]?.url}
@@ -24,10 +28,13 @@ const ProductItemDetail = ({product}) => {
         </div>
         <h2 className='font-medium text-lg'>Quantity ({product.itemQuantityType})</h2>
         <div className='flex flex-col items-baseline gap-3'>
-          <div className='p-2 border flex gap-10 items-center px-5'>
-            <button>-</button>
-            <span>1</span>
-            <button>+</button>
+          <div className="flex gap-3 items-center">
+            <div className='p-2 border flex gap-10 items-center px-5'>
+              <button disabled={quantity==1} onClick={()=>setQuantity(quantity-1)}>-</button>
+              <span>{quantity}</span>
+              <button onClick={()=>setQuantity(quantity+1)}>+</button>
+            </div>
+            <div className='text-2xl font-bold'> = ${(quantity * productTotalPrice).toFixed(2)}</div>
           </div>
           <Button className="flex gap-3">
             <ShoppingBasket />
