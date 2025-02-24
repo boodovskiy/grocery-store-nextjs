@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import GlobalApi from '../_utils/GlobalApi'
 import { STRAPI_BASE_URL } from "@/config";
+import Link from 'next/link'
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
@@ -37,6 +38,7 @@ const Header = () => {
                 <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {categoryList.map((category, index) => (
+                  <Link href={'/category/' + category.name}>
                   <DropdownMenuItem key={index} className="flex gap-2 items-center">
                    <Image 
                       src={STRAPI_BASE_URL + category?.icon?.url}
@@ -47,6 +49,7 @@ const Header = () => {
                     />
                     <h2>{category?.name}</h2>
                   </DropdownMenuItem>
+                  </Link>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>

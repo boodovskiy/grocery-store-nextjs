@@ -23,9 +23,15 @@ const getAllProducts = async () => {
     return resp.data.data;
 }
 
+const getProductsByCategory = async (category) => {
+    const resp = await axiosClient.get('/products?filters[categories][name][$in]=' + category + "&populate=*");
+    return resp.data.data;
+}
+
 export default {
     getCategory,
     getSliders,
     getCategoryList,
-    getAllProducts
+    getAllProducts,
+    getProductsByCategory
 }
