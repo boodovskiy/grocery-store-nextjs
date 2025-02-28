@@ -28,9 +28,14 @@ const getProductsByCategory = async (category) => {
     return resp.data.data;
 }
 
-const registerUser=(username, email, password)=>axiosClient.post('/auth/local/register', {
+const registerUser = (username, email, password) => axiosClient.post('/auth/local/register', {
     username: username,
     email: email,
+    password: password
+})
+
+const signIn = (email, password) => axiosClient.post('/auth/local', {
+    identifier: email,
     password: password
 })
 
@@ -40,5 +45,6 @@ export default {
     getCategoryList,
     getAllProducts,
     getProductsByCategory,
-    registerUser
+    registerUser,
+    signIn
 }
