@@ -11,6 +11,7 @@ import Link from 'next/link'
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
+  const isLogin = sessionStorage.getItem('jwt') ? true : false;
 
   useEffect(()=>{
     getCategoryList();
@@ -61,7 +62,7 @@ const Header = () => {
         </div>
         <div className='flex gap-5 items-center'>
           <h2 className='flex gap-2 items-center text-lg'><ShoppingBag /> 0</h2>
-          <Button>Login</Button>
+          {!isLogin && <Link href={'/sign-in'}><Button>Login</Button></Link> }
         </div>
     </div>
   )
