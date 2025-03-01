@@ -39,7 +39,7 @@ const Header = () => {
                 <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {categoryList.map((category, index) => (
-                  <Link href={'/category/' + category.name}>
+                  <Link href={'/category/' + category.name} key={index}>
                   <DropdownMenuItem key={index} className="flex gap-2 items-center">
                    <Image 
                       src={STRAPI_BASE_URL + category?.icon?.url}
