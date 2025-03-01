@@ -14,6 +14,11 @@ const CreateAccount = () => {
     const [password, setPassword] = useState();
     const router = useRouter();
 
+    useEffect(()=>{
+        const jwt = sessionStorage.getItem('jwt');
+        if (jwt) router.push('/'); 
+    }, []);
+
     const onCreateAccount = ()=>{
         GlobalApi.registerUser(username, email, password).then(resp=>{
             console.log(resp.data.user);

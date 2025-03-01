@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
@@ -12,6 +12,11 @@ const SignIn = () => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
   const router = useRouter();
+
+  useEffect(()=>{
+    const jwt = sessionStorage.getItem('jwt');
+    if (jwt) router.push('/'); 
+  }, []);
 
   const onSignIn = () => {
     GlobalApi.signIn(email, password).then( resp => {
