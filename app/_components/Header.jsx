@@ -1,6 +1,6 @@
 "use client"
 
-import { LayoutGrid, Search, ShoppingBag } from 'lucide-react'
+import { CircleUserRoundIcon, LayoutGrid, Search, ShoppingBag } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -62,7 +62,20 @@ const Header = () => {
         </div>
         <div className='flex gap-5 items-center'>
           <h2 className='flex gap-2 items-center text-lg'><ShoppingBag /> 0</h2>
-          {!isLogin && <Link href={'/sign-in'}><Button>Login</Button></Link> }
+          {!isLogin ? <Link href={'/sign-in'}><Button>Login</Button></Link>
+                    : 
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild><CircleUserRoundIcon className='h-12 w-12 bg-green-100 text-primary p-2 rounded-full cursor-pointer'/></DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>My Orders</DropdownMenuItem>
+                        <DropdownMenuItem>Logout</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+
+         }
         </div>
     </div>
   )
