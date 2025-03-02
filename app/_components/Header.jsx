@@ -8,16 +8,23 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLab
 import GlobalApi from '../_utils/GlobalApi'
 import { STRAPI_BASE_URL } from "@/config";
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
   const isLogin = sessionStorage.getItem('jwt') ? true : false;
+  const router = useRouter();
 
   useEffect(()=>{
     getCategoryList();
   },[])
 
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
+
+  const onSignOut = () => {
+    sessionStorage.clear();
+    router.push('/sign-in');
+  }
 
   return (
     <div className='flex justify-between p-5 shadow-md'>
@@ -71,7 +78,7 @@ const Header = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>Profile</DropdownMenuItem>
                         <DropdownMenuItem>My Orders</DropdownMenuItem>
-                        <DropdownMenuItem>Logout</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>onSignOut()}>Logout</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
 
