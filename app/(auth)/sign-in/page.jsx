@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { LoaderIcon } from 'lucide-react'
 
 const SignIn = () => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
+  const [loader, setLoader] = useState();
   const router = useRouter();
 
   useEffect(()=>{
@@ -19,14 +21,17 @@ const SignIn = () => {
   }, []);
 
   const onSignIn = () => {
+    setLoader(true);
     GlobalApi.signIn(email, password).then( resp => {
       sessionStorage.setItem('user', JSON.stringify(resp.data.user));
       sessionStorage.setItem('jwt', resp.data.jwt);
       toast("Login Succesfull!");
       router.push('/');
+      setLoader(false);
     }, (e) => {
      console.log(e); 
-     toast("Server Error!");
+     toast(e?.response?.data?.error?.message);
+     setLoader(false);
     })
   }
 
@@ -41,8 +46,8 @@ const SignIn = () => {
               <Input type='password' placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
               <Button onClick={()=>onSignIn()}
                   disabled={!(email || password)}    
-              >Sign In</Button>
-              <p>
+              >{loader ? <LoaderIcon className='animate-spin'/> : 'Sign In'} </Button>
+              <p className='flex flex-col items-center'>
                   Don't have an Account ?
                   <Link href={'/create-account'} className='text-blue-500'>Click here to create new account</Link>
               </p>
