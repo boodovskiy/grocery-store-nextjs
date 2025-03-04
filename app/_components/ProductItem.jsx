@@ -5,7 +5,7 @@ import React from 'react'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
+    DialogTitle,
     DialogHeader,
     DialogTrigger,
   } from "@/components/ui/dialog"
@@ -41,9 +41,8 @@ const ProductItem = ({product}) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                <DialogDescription>
+                    <DialogTitle>Product Details</DialogTitle>
                     <ProductItemDetail product={product} />
-                </DialogDescription>
                 </DialogHeader>
             </DialogContent>
         </Dialog>

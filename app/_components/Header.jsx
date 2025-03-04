@@ -12,10 +12,11 @@ import { useRouter } from 'next/navigation'
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
-  const isLogin = sessionStorage.getItem('jwt') ? true : false;
+  const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
 
   useEffect(()=>{
+    setIsLogin(!!sessionStorage.getItem("jwt")); // Check login status on the client side
     getCategoryList();
   },[])
 
