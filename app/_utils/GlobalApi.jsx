@@ -39,11 +39,13 @@ const signIn = (email, password) => axiosClient.post('/auth/local', {
     password: password
 })
 
-const addToCart = (data, jwt) => axiosClient.post('/user-carts', data, {
+const addToCart = (data, jwt) => axiosClient.post('/user-carts?populate=products', data, {
     headers: {
         Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
     }
 });
+
 
 export default {
     getCategory,

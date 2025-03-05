@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { toast } from 'sonner'
 
+
 const ProductItemDetail = ({product}) => {
   const jwt = sessionStorage.getItem('jwt')
   const user = JSON.parse(sessionStorage.getItem('user'))
@@ -25,17 +26,19 @@ const ProductItemDetail = ({product}) => {
       data: {
         quantity: quantity,
         amount: (quantity * productTotalPrice).toFixed(2),
-        products: product.id,
-        users_permissions_users: user.id,
+        products: [{id: product.id}],
+        users_permissions_user: user.id,
       }
     }
 
     console.log(data)
 
     GlobalApi.addToCart(data, jwt).then(resp=>{
-      console.log(resp);
+      console.log('Response:', resp.data);
       toast('Added to Cart!');
+      
     }, (e) => {
+      console.error('Error:', error.response?.data || error.message);
       toast('Error while adding into cart.');
     })
   }
