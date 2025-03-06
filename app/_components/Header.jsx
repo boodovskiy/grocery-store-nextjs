@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleUserRoundIcon, LayoutGrid, Search, ShoppingBag } from 'lucide-react'
+import { CircleUserRoundIcon, LayoutGrid, Search, ShoppingBag, ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
+  const [totalCartItem, setTotalCartItem] = useState(0)
   const router = useRouter();
 
   useEffect(()=>{
@@ -69,7 +70,9 @@ const Header = () => {
             </div>
         </div>
         <div className='flex gap-5 items-center'>
-          <h2 className='flex gap-2 items-center text-lg'><ShoppingBag /> 0</h2>
+          <h2 className='flex gap-2 items-center text-lg'><ShoppingBasket className='h-7 w-7'/>
+            <span className='bg-primary text-white px-2 rounded-full'>{totalCartItem}</span>
+          </h2>
           {!isLogin ? <Link href={'/sign-in'}><Button>Login</Button></Link>
                     : 
                     <DropdownMenu>
