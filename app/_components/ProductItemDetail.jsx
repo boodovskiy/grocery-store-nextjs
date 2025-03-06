@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { STRAPI_BASE_URL } from '@/config'
-import { ShoppingBasket } from 'lucide-react'
+import { LoaderCircle, ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -15,10 +15,14 @@ const ProductItemDetail = ({product}) => {
   const [productTotalPrice, setProductTotalPrice] = useState(product.sellingPrice ? product.sellingPrice : product.mrp)
   const [quantity, setQuantity] = useState(1)
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const addToCart = () => {
+    setLoading(true);
+
     if (!jwt)  { 
       router.push('/sign-in'); 
+      setLoading(false);
       return; 
     } 
 
@@ -36,10 +40,11 @@ const ProductItemDetail = ({product}) => {
     GlobalApi.addToCart(data, jwt).then(resp=>{
       console.log('Response:', resp.data);
       toast('Added to Cart!');
-      
+      setLoading(false);
     }, (e) => {
       console.error('Error:', error.response?.data || error.message);
       toast('Error while adding into cart.');
+      setLoading(false);
     })
   }
 
@@ -70,9 +75,9 @@ const ProductItemDetail = ({product}) => {
             </div>
             <div className='text-2xl font-bold'> = ${(quantity * productTotalPrice).toFixed(2)}</div>
           </div>
-          <Button className="flex gap-3" onClick={()=>addToCart()}>
+          <Button className="flex gap-3" onClick={()=>addToCart()} disabled={loading}>
             <ShoppingBasket />
-            Add to Cart
+            {loading ? <LoaderCircle className='animate-spin'/> : 'Add to Cart'}
           </Button>
         </div>
         <div><span className='font-bold'>Category:</span> {product.categories[0].name}</div>
