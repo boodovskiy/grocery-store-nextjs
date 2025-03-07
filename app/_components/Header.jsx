@@ -2,37 +2,51 @@
 
 import { CircleUserRoundIcon, LayoutGrid, Search, ShoppingBag, ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import GlobalApi from '../_utils/GlobalApi'
 import { STRAPI_BASE_URL } from "@/config";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { UpdateCartContext } from '../_context/UpdateCartContext'
 
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
-  const user = JSON.parse(sessionStorage.getItem('user'));
+  const [user, setUser] = useState(null);
   const [totalCartItem, setTotalCartItem] = useState(0);
-  const jwt = sessionStorage.getItem('jwt');
+  const [jwt, setJwt] = useState(null);
+  const {udpateCart, setUpdateCart} = useContext(UpdateCartContext);
   const router = useRouter();
 
   useEffect(()=>{
-    setIsLogin(!!sessionStorage.getItem("jwt")); // Check login status on the client side
-    getCategoryList();
+    if (typeof window !== "undefined") {
+      const storedUser = JSON.parse(sessionStorage.getItem("user"));
+      const storedJwt = sessionStorage.getItem("jwt");
+
+      if (storedUser && storedJwt) {
+        setUser(storedUser);
+        setJwt(storedJwt);
+      }
+      setIsLogin(!!storedJwt); // Check login status on the client side
+
+      getCategoryList();
+    }
   },[])
 
   useEffect(()=>{
-    getCartItems();
-  },[])
+    if (user?.id && jwt) {
+      getCartItems(user.id, jwt);
+    }
+  },[user, jwt])
 
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
 
-  const getCartItems = async () => {
-    const cartItemList = await GlobalApi.getCartItems(user.id, jwt);
+  const getCartItems = async (userId, jwt) => {
+    const cartItemList = await GlobalApi.getCartItems(userId, jwt);
     console.log(cartItemList);
-    setTotalCartItem(cartItemList?.length);
+    setTotalCartItem(cartItemList?.length || 0);
   }
 
   const onSignOut = () => {

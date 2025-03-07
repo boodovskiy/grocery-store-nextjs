@@ -4,14 +4,16 @@ import { STRAPI_BASE_URL } from '@/config'
 import { LoaderCircle, ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { toast } from 'sonner'
+import { UpdateCartContext } from '../_context/UpdateCartContext'
 
 
 const ProductItemDetail = ({product}) => {
   const jwt = sessionStorage.getItem('jwt')
   const user = JSON.parse(sessionStorage.getItem('user'))
+  const {udpateCart, setUpdateCart} = useContext(UpdateCartContext)
   const [productTotalPrice, setProductTotalPrice] = useState(product.sellingPrice ? product.sellingPrice : product.mrp)
   const [quantity, setQuantity] = useState(1)
   const router = useRouter()
@@ -41,6 +43,7 @@ const ProductItemDetail = ({product}) => {
     GlobalApi.addToCart(data, jwt).then(resp=>{
       console.log('Response:', resp.data);
       toast('Added to Cart!');
+      setUpdateCart(!udpateCart);
       setLoading(false);
     }, (e) => {
       console.error('Error:', error.response?.data || error.message);
