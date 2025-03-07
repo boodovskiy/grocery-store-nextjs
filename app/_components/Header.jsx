@@ -13,7 +13,9 @@ import { useRouter } from 'next/navigation'
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
-  const [totalCartItem, setTotalCartItem] = useState(0)
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const [totalCartItem, setTotalCartItem] = useState(0);
+  const jwt = sessionStorage.getItem('jwt');
   const router = useRouter();
 
   useEffect(()=>{
@@ -21,7 +23,17 @@ const Header = () => {
     getCategoryList();
   },[])
 
+  useEffect(()=>{
+    getCartItems();
+  },[])
+
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
+
+  const getCartItems = async () => {
+    const cartItemList = await GlobalApi.getCartItems(user.id, jwt);
+    console.log(cartItemList);
+    setTotalCartItem(cartItemList?.length);
+  }
 
   const onSignOut = () => {
     sessionStorage.clear();

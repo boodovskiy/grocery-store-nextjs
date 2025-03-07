@@ -46,6 +46,14 @@ const addToCart = (data, jwt) => axiosClient.post('/user-carts?populate=products
     }
 });
 
+const getCartItems = (userId, jwt) => axiosClient.get('/user-carts?filters[userId][$eq]=' + userId + '&populate=*', {
+    headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
+    }
+}).then( resp => {
+    return resp.data.data;
+})
 
 export default {
     getCategory,
@@ -55,5 +63,6 @@ export default {
     getProductsByCategory,
     registerUser,
     signIn,
-    addToCart
+    addToCart,
+    getCartItems
 }
