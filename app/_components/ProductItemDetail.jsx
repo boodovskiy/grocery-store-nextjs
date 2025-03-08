@@ -13,7 +13,7 @@ import { UpdateCartContext } from '../_context/UpdateCartContext'
 const ProductItemDetail = ({product}) => {
   const jwt = sessionStorage.getItem('jwt')
   const user = JSON.parse(sessionStorage.getItem('user'))
-  const {udpateCart, setUpdateCart} = useContext(UpdateCartContext)
+  const {updateCart, setUpdateCart} = useContext(UpdateCartContext)
   const [productTotalPrice, setProductTotalPrice] = useState(product.sellingPrice ? product.sellingPrice : product.mrp)
   const [quantity, setQuantity] = useState(1)
   const router = useRouter()
@@ -43,7 +43,7 @@ const ProductItemDetail = ({product}) => {
     GlobalApi.addToCart(data, jwt).then(resp=>{
       console.log('Response:', resp.data);
       toast('Added to Cart!');
-      setUpdateCart(!udpateCart);
+      setUpdateCart(!updateCart);
       setLoading(false);
     }, (e) => {
       console.error('Error:', error.response?.data || error.message);

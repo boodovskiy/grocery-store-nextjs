@@ -17,7 +17,7 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [jwt, setJwt] = useState(null);
-  const {udpateCart, setUpdateCart} = useContext(UpdateCartContext);
+  const {updateCart, setUpdateCart} = useContext(UpdateCartContext);
   const router = useRouter();
 
   useEffect(()=>{
@@ -33,13 +33,13 @@ const Header = () => {
 
       getCategoryList();
     }
-  },[])
+  }, [])
 
   useEffect(()=>{
     if (user?.id && jwt) {
       getCartItems(user.id, jwt);
     }
-  },[user, jwt])
+  }, [user, jwt, updateCart])
 
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
 
