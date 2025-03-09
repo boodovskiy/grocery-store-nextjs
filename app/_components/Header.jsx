@@ -18,6 +18,7 @@ const Header = () => {
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [jwt, setJwt] = useState(null);
   const {updateCart, setUpdateCart} = useContext(UpdateCartContext);
+  const [cartItemList, setCartItemList] = useState([]);
   const router = useRouter();
 
   useEffect(()=>{
@@ -44,9 +45,10 @@ const Header = () => {
   const getCategoryList = () => GlobalApi.getCategory().then( resp => setCategoryList(resp.data.data) )
 
   const getCartItems = async (userId, jwt) => {
-    const cartItemList = await GlobalApi.getCartItems(userId, jwt);
-    console.log(cartItemList);
-    setTotalCartItem(cartItemList?.length || 0);
+    const cartItemList_ = await GlobalApi.getCartItems(userId, jwt);
+    console.log("Cart Item List:", cartItemList_);
+    setTotalCartItem(cartItemList_?.length || 0);
+    setCartItemList(cartItemList_);
   }
 
   const onSignOut = () => {

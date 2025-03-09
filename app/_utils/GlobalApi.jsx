@@ -46,12 +46,22 @@ const addToCart = (data, jwt) => axiosClient.post('/user-carts?populate=products
     }
 });
 
-const getCartItems = (userId, jwt) => axiosClient.get('/user-carts?filters[userId][$eq]=' + userId + '&populate=*', {
+const getCartItems = (userId, jwt) => axiosClient.get('/user-carts?filters[userId][$eq]=' + userId + '&[populate][products][populate][images][populate]=*', {
     headers: {
         Authorization: `Bearer ${jwt}`,
         'Content-Type': 'application/json'
     }
 }).then( resp => {
+    const data = resp.data.data;
+    const cartItemList = data.map((item, index) => ({
+        name: item.products[0]?.name,
+        quantity: item.quantity,
+        amount: item.amount,
+        image: item.products[0]?.images[0]?.url,
+        actualPrice: item.products[0]?.mrp,
+        id: item.id
+    }))
+
     return resp.data.data;
 })
 
