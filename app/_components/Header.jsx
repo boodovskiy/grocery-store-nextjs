@@ -11,6 +11,16 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { UpdateCartContext } from '../_context/UpdateCartContext'
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+
 const Header = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
@@ -98,9 +108,25 @@ const Header = () => {
             </div>
         </div>
         <div className='flex gap-5 items-center'>
-          <h2 className='flex gap-2 items-center text-lg'><ShoppingBasket className='h-7 w-7'/>
-            <span className='bg-primary text-white px-2 rounded-full'>{totalCartItem}</span>
-          </h2>
+          
+          <Sheet>
+            <SheetTrigger>
+            <h2 className='flex gap-2 items-center text-lg'>
+              <ShoppingBasket className='h-7 w-7'/>
+              <span className='bg-primary text-white px-2 rounded-full'>{totalCartItem}</span>
+            </h2>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle className="bg-primary text-white font-bold text-lg p-2">My Cart</SheetTitle>
+                <SheetDescription>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+
           {!isLogin ? <Link href={'/sign-in'}><Button>Login</Button></Link>
                     : 
                     <DropdownMenu>
