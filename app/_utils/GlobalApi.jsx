@@ -62,7 +62,7 @@ const getCartItems = (userId, jwt) => axiosClient.get('/user-carts?filters[userI
         id: item.id
     }))
 
-    return resp.data.data;
+    return cartItemList;
 })
 
 export default {

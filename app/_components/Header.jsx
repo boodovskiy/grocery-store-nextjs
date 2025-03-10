@@ -19,6 +19,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import CartItemList from './CartItemList'
 
 
 const Header = () => {
@@ -120,8 +121,7 @@ const Header = () => {
               <SheetHeader>
                 <SheetTitle className="bg-primary text-white font-bold text-lg p-2">My Cart</SheetTitle>
                 <SheetDescription>
-                  This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
+                  <CartItemList items={cartItemList}/>
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>
