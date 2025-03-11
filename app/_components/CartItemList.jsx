@@ -31,7 +31,7 @@ function CartItemList({items, onDeleteItem}) {
                             <div className='font-bold text-lg'>$ {item.amount}</div>
                         </div>
                     </div>
-                    <TrashIcon onClick={() => onDeleteItem(item.id)} className='cursor-pointer'/>
+                    <TrashIcon onClick={() => onDeleteItem(item.document_id)} className='cursor-pointer'/>
                 </div>
             ))}
         </div>

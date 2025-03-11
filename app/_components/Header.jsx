@@ -68,9 +68,8 @@ const Header = () => {
     router.push('/sign-in');
   }
 
-  const onDeleteItem = (id) => {
-    GlobalApi.deleteCartItem(id, jwt).then(resp => {
-      console.log("jwt:", jwt);
+  const onDeleteItem = (document_id) => {
+    GlobalApi.deleteCartItem(document_id, jwt).then(resp => {
       toast('Item removed!');
       getCartItems(user.id, jwt);
     });
