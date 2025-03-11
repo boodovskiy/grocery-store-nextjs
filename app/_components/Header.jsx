@@ -10,6 +10,7 @@ import { STRAPI_BASE_URL } from "@/config";
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { UpdateCartContext } from '../_context/UpdateCartContext'
+import { toast } from 'sonner';
 
 import {
   Sheet,
@@ -67,6 +68,14 @@ const Header = () => {
     router.push('/sign-in');
   }
 
+  const onDeleteItem = (id) => {
+    GlobalApi.deleteCartItem(id, jwt).then(resp => {
+      console.log("jwt:", jwt);
+      toast('Item removed!');
+      getCartItems(user.id, jwt);
+    });
+  }
+ 
   return (
     <div className='flex justify-between p-5 shadow-md'>
         <div className='flex items-center gap-8'>
@@ -121,7 +130,7 @@ const Header = () => {
               <SheetHeader>
                 <SheetTitle className="bg-primary text-white font-bold text-lg p-2">My Cart</SheetTitle>
                 <SheetDescription>
-                  <CartItemList items={cartItemList}/>
+                  <CartItemList items={cartItemList} onDeleteItem={onDeleteItem}/>
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>

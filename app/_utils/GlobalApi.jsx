@@ -59,11 +59,19 @@ const getCartItems = (userId, jwt) => axiosClient.get('/user-carts?filters[userI
         amount: item.amount,
         image: item.products[0]?.images[0]?.url,
         actualPrice: item.products[0]?.mrp,
-        id: item.id
+        id: item.id,
+        document_id: item.document_id
     }))
 
     return cartItemList;
 })
+
+const deleteCartItem = (id, jwt) => axiosClient.delete('/user-carts/' + document_id, 
+{    headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
+    }
+}) 
 
 export default {
     getCategory,
@@ -74,5 +82,6 @@ export default {
     registerUser,
     signIn,
     addToCart,
-    getCartItems
+    getCartItems,
+    deleteCartItem
 }

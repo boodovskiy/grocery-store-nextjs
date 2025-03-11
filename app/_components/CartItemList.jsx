@@ -4,7 +4,7 @@ import { STRAPI_BASE_URL } from '@/config'
 import { TrashIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-function CartItemList({items}) {
+function CartItemList({items, onDeleteItem}) {
     const [subtotal, setSubtotal] = useState(0);
 
     useEffect(()=>{
@@ -31,7 +31,7 @@ function CartItemList({items}) {
                             <div className='font-bold text-lg'>$ {item.amount}</div>
                         </div>
                     </div>
-                    <TrashIcon />
+                    <TrashIcon onClick={() => onDeleteItem(item.id)} className='cursor-pointer'/>
                 </div>
             ))}
         </div>
