@@ -13,12 +13,12 @@ function CartItemList({items, onDeleteItem}) {
             total = total + element.amount
         });
 
-        setSubtotal(total);
+        setSubtotal(total.toFixed(2));
     },[items])
 
   return (
     <div>
-        <div>
+        <div className='h-[500px] overflow-auto'>
             {items.map((item, index) => (
                 <div key={index} className='flex justify-between items-center p-2 mb-5'>
                     <div className='flex gap-6 items-center'>
