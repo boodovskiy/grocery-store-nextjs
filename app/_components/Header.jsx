@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -31,6 +32,7 @@ const Header = () => {
   const [jwt, setJwt] = useState(null);
   const {updateCart, setUpdateCart} = useContext(UpdateCartContext);
   const [cartItemList, setCartItemList] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
   const router = useRouter();
 
   useEffect(()=>{
@@ -74,6 +76,15 @@ const Header = () => {
       getCartItems(user.id, jwt);
     });
   }
+  
+  useEffect(()=>{
+      let total = 0;
+      cartItemList.forEach(element => {
+          total = total + element.amount
+      });
+
+      setSubtotal(total.toFixed(2));
+  },[cartItemList])
  
   return (
     <div className='flex justify-between p-5 shadow-md'>
@@ -132,6 +143,12 @@ const Header = () => {
                   <CartItemList items={cartItemList} onDeleteItem={onDeleteItem}/>
                 </SheetDescription>
               </SheetHeader>
+              <SheetClose asChild>
+                <div className="absolute w-[90%] bottom-6 flex flex-col">
+                  <div className="text-lg font-bold flex justify-between">Subtotal: <span>${subtotal}</span></div>
+                  <Button onClick={()=>router.push(jwt ? '/checkout' : '/sign-in')}>Checkout</Button>
+                </div>
+              </SheetClose>
             </SheetContent>
           </Sheet>
 

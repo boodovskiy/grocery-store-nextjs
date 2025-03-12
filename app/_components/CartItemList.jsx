@@ -5,16 +5,7 @@ import { TrashIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 function CartItemList({items, onDeleteItem}) {
-    const [subtotal, setSubtotal] = useState(0);
-
-    useEffect(()=>{
-        let total = 0;
-        items.forEach(element => {
-            total = total + element.amount
-        });
-
-        setSubtotal(total.toFixed(2));
-    },[items])
+    
 
   return (
     <div>
@@ -36,10 +27,6 @@ function CartItemList({items, onDeleteItem}) {
             ))}
         </div>
 
-        <div className='absolute w-[90%] bottom-6 flex flex-col'>
-            <div className='text-lg font-bold flex justify-between'>Subtotal: <span>${subtotal}</span></div>
-            <Button>View Cart</Button>
-        </div>
     </div>
   )
 }
