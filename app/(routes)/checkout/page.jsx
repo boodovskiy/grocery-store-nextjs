@@ -4,14 +4,21 @@ import { Input } from '@/components/ui/input'
 import { ArrowBigRight } from 'lucide-react'
 import React, { useEffect, useState }  from 'react'
 import GlobalApi from '@/app/_utils/GlobalApi'
+import { useRouter } from 'next/navigation';
 
 const Checkout = () => {
   const [user, setUser] = useState(null);
   const [jwt, setJwt] = useState(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [totalCartItem, setTotalCartItem] = useState(0);
   const [cartItemList, setCartItemList] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const router = useRouter()
+
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
+  const [zip, setZip] = useState();
+  const [address, setAddress] = useState();
 
    useEffect(()=>{
       if (typeof window !== "undefined") {
@@ -22,7 +29,6 @@ const Checkout = () => {
           setUser(storedUser);
           setJwt(storedJwt);
         }
-        setIsLogin(!!storedJwt); // Check login status on the client side
   
       }
     }, [])
@@ -37,6 +43,8 @@ const Checkout = () => {
   useEffect(()=>{
       if (user?.id && jwt) {
         getCartItems(user.id, jwt);
+      } else {
+        router.push('/sign-in');
       }
     }, [user, jwt])
 
@@ -49,6 +57,11 @@ const Checkout = () => {
         setSubtotal(total.toFixed(2));
   },[cartItemList])
 
+  const calculateTotalAmount = () => {
+    const totalAmount = subtotal * 0.9 + 15;
+    return totalAmount.toFixed(2);
+  }
+
   return (
     <div>
         <h2 className='p-3 bg-primary text-xl font-bold text-center text-white'>Checkout</h2>
@@ -57,17 +70,17 @@ const Checkout = () => {
             <div className="font-bold text-3xl">Billing Details</div>
 
             <div className="grid grid-cols-2 gap-10 mt-3">
-              <Input placeholder='Name' />
-              <Input placeholder='Email' />
+              <Input placeholder='Name' onChange={(e)=>setUsername(e.target.value)}/>
+              <Input placeholder='Email' onChange={(e)=>setEmail(e.target.value)}/>
             </div>
 
             <div className="grid grid-cols-2 gap-10 mt-3">
-              <Input placeholder='Phone' />
-              <Input placeholder='Zip' />
+              <Input placeholder='Phone' onChange={(e)=>setPhone(e.target.value)}/>
+              <Input placeholder='Zip' onChange={(e)=>setZip(e.target.value)}/>
             </div>
 
             <div className="mt-3">
-              <Input placeholder="Address" />
+              <Input placeholder="Address" onChange={(e)=>setAddress(e.target.value)}/>
             </div>
 
           </div>
@@ -77,9 +90,9 @@ const Checkout = () => {
               <div className="font-bold flex justify-between">Subtotal: <span>${subtotal}</span></div>
               <hr />
               <div className="flex justify-between">Delivery : <span>$15:00</span></div>
-              <div className="flex justify-between">Tax (9%): <span>$250:00</span></div>
+              <div className="flex justify-between">Tax (9%): <span>${(totalCartItem*0.9).toFixed(2)}</span></div>
               <hr />
-              <div className="font-bold flex justify-between">Total: <span>$350:00</span></div>
+              <div className="font-bold flex justify-between">Total: <span>${calculateTotalAmount()}</span></div>
               <Button>Payment <ArrowBigRight /> </Button>
             </div>
           </div>
