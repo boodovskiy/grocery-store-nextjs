@@ -5,6 +5,7 @@ import { ArrowBigRight } from 'lucide-react'
 import React, { useEffect, useState }  from 'react'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { useRouter } from 'next/navigation';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 const Checkout = () => {
   const [user, setUser] = useState(null);
@@ -20,6 +21,8 @@ const Checkout = () => {
   const [zip, setZip] = useState();
   const [address, setAddress] = useState();
 
+  const [totalAmount, setTotalAmount] = useState();
+
    useEffect(()=>{
       if (typeof window !== "undefined") {
         const storedUser = JSON.parse(sessionStorage.getItem("user"));
@@ -28,6 +31,8 @@ const Checkout = () => {
         if (storedUser && storedJwt) {
           setUser(storedUser);
           setJwt(storedJwt);
+        } else {
+          router.push('/sign-in'); 
         }
   
       }
@@ -41,20 +46,18 @@ const Checkout = () => {
     }
 
   useEffect(()=>{
-      if (user?.id && jwt) {
-        getCartItems(user.id, jwt);
-      } else {
-        router.push('/sign-in');
-      }
-    }, [user, jwt])
+    if (!user || !jwt) return; 
+    getCartItems(user.id, jwt);
+  }, [user, jwt])
 
   useEffect(()=>{
         let total = 0;
         cartItemList.forEach(element => {
             total = total + element.amount
         });
-  
+
         setSubtotal(total.toFixed(2));
+        setTotalAmount((total*0.9 + 15).toFixed(2));
   },[cartItemList])
 
   const calculateTotalAmount = () => {
@@ -93,7 +96,21 @@ const Checkout = () => {
               <div className="flex justify-between">Tax (9%): <span>${(totalCartItem*0.9).toFixed(2)}</span></div>
               <hr />
               <div className="font-bold flex justify-between">Total: <span>${calculateTotalAmount()}</span></div>
-              <Button>Payment <ArrowBigRight /> </Button>
+              {/* <Button>Payment <ArrowBigRight /> </Button> */}
+              <PayPalButtons style={{ layout: "horizontal" }} 
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: totalAmount,
+                          currency_code: 'USD'
+                        }
+                      }
+                    ]
+                  })
+                }}
+              />
             </div>
           </div>
         </div>
