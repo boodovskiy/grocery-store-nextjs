@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   const [updateCart, setUpdateCart] = useState(false);
 
   return (
-    <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
+    <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, components: 'buttons' }}>
     <html lang="en">
       <body
         className={`${nunito.className} antialiased`}

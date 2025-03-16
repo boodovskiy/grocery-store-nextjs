@@ -6,6 +6,7 @@ import React, { useEffect, useState }  from 'react'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { useRouter } from 'next/navigation';
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import { toast } from 'sonner';
 
 const Checkout = () => {
   const [user, setUser] = useState(null);
@@ -65,6 +66,33 @@ const Checkout = () => {
     return totalAmount.toFixed(2);
   }
 
+  const onApprove = (data) => {
+    console.log(data);
+
+    const payload = {
+      data: {
+        paymentId: data.paymentId.toString(),
+        userId: user.id,
+        totalOrderAmount: parseFloat(totalAmount),
+        username: username,
+        email: email,
+        phone: phone,
+        zip: zip,
+        address: address,
+        orderItemList: cartItemList.map(item => ({
+          quantity: item.quantity,
+          price: item.amount,
+          product: item.product_id[0]?.id,
+        })),
+      }
+    }
+
+    GlobalApi.createOrder(payload, jwt).then(resp => {
+      console.log('Order Creation response: ', resp);
+      toast('Order Placed Successfully!');
+    })
+  }
+
   return (
     <div>
         <h2 className='p-3 bg-primary text-xl font-bold text-center text-white'>Checkout</h2>
@@ -96,7 +124,7 @@ const Checkout = () => {
               <div className="flex justify-between">Tax (9%): <span>${(totalCartItem*0.9).toFixed(2)}</span></div>
               <hr />
               <div className="font-bold flex justify-between">Total: <span>${calculateTotalAmount()}</span></div>
-              {/* <Button>Payment <ArrowBigRight /> </Button> */}
+              <Button onClick={() => onApprove({paymentId: 321})}>Payment <ArrowBigRight /> </Button>
               <PayPalButtons style={{ layout: "horizontal" }} 
                 createOrder={(data, actions) => {
                   return actions.order.create({
@@ -110,6 +138,7 @@ const Checkout = () => {
                     ]
                   })
                 }}
+                onApprove={onApprove}
               />
             </div>
           </div>
