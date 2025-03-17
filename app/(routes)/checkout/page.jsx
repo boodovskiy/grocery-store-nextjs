@@ -124,7 +124,7 @@ const Checkout = () => {
               <div className="flex justify-between">Tax (9%): <span>${(totalCartItem*0.9).toFixed(2)}</span></div>
               <hr />
               <div className="font-bold flex justify-between">Total: <span>${calculateTotalAmount()}</span></div>
-              <Button onClick={() => onApprove({paymentId: 321})}>Payment <ArrowBigRight /> </Button>
+              {/* <Button onClick={() => onApprove({paymentId: 321})}>Payment <ArrowBigRight /> </Button> */}
               <PayPalButtons style={{ layout: "horizontal" }} 
                 createOrder={(data, actions) => {
                   return actions.order.create({
@@ -138,7 +138,16 @@ const Checkout = () => {
                     ]
                   })
                 }}
-                onApprove={onApprove}
+                onApprove={async (data, actions) => {
+                  const order = await actions.order.capture();
+                  const paymentId = order.id;
+
+                  if (paymentId) {
+                    onApprove({ paymentId });
+                  } else {
+                    console.error("Payment ID is missing");
+                  }
+                }}
               />
             </div>
           </div>
