@@ -81,6 +81,20 @@ const createOrder = (data, jwt) => axiosClient.post('/orders', data, {
     }
 })
 
+const getMyOrder = (userId, jwt) = axiosClient.get('/orders/?filters[userId][$eq]=' + userId + '&populate[orderItemList][populate][product][populate][images]=url')
+.then(resp => {
+    const response = resp.data.data;
+    const orderList = response.map(item => ({
+        id: item.id,
+        document_id: item.documentId,
+        totalOrderAmount: item.totalOrderAmount,
+        paymentId: item.paymentId,
+        orderItemList: item.orderItemList,
+    }));
+
+    return orderList;
+});
+
 export default {
     getCategory,
     getSliders,
@@ -92,5 +106,6 @@ export default {
     addToCart,
     getCartItems,
     deleteCartItem,
-    createOrder
+    createOrder,
+    getMyOrder
 }
