@@ -81,7 +81,7 @@ const createOrder = (data, jwt) => axiosClient.post('/orders', data, {
     }
 })
 
-const getMyOrder = (userId, jwt) = axiosClient.get('/orders/?filters[userId][$eq]=' + userId + '&populate[orderItemList][populate][product][populate][images]=url')
+const getMyOrder = (userId, jwt) => axiosClient.get('/orders/?filters[userId][$eq]=' + userId + '&populate[orderItemList][populate][product][populate]=*')
 .then(resp => {
     const response = resp.data.data;
     const orderList = response.map(item => ({

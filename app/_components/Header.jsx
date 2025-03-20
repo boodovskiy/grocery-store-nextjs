@@ -160,7 +160,7 @@ const Header = () => {
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>Profile</DropdownMenuItem>
-                        <DropdownMenuItem>My Orders</DropdownMenuItem>
+                        <DropdownMenuItem><Link href={'/my-order'}>My Orders</Link></DropdownMenuItem>
                         <DropdownMenuItem onClick={()=>onSignOut()}>Logout</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
