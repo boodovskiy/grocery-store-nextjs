@@ -7,11 +7,13 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
   } from "@/components/ui/collapsible"
+import moment from 'moment';
   
 
 const MyOrder = () => {
     const [jwt, setJwt] = useState(null);
     const [user, setUser] = useState(null);
+    const [orderList, setOrderList] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -33,8 +35,9 @@ const MyOrder = () => {
     }, [jwt, user]);
 
     const getMyOrder = async () => {
-        const orderList = await GlobalApi.getMyOrder(user.id, jwt);
-        console.log('MyOrder List:', orderList);
+        const orderList_ = await GlobalApi.getMyOrder(user.id, jwt);
+        console.log('MyOrder List:', orderList_);
+        setOrderList(orderList_);
     }
 
   return (
@@ -42,13 +45,24 @@ const MyOrder = () => {
         <h2 className='p-3 bg-primary text-xl font-bold text-center text-white'>My Order</h2>
         <div className='py-8 mx-7 md:mx-20'>
             <h3 className='text-3xl font-bold text-primary'>Order History</h3>
-            <Collapsible>
-                <CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger>
-                <CollapsibleContent>
-                    Yes. Free to use for personal and commercial projects. No attribution
-                    required.
-                </CollapsibleContent>
-            </Collapsible>
+            <div>
+                {orderList.map((item, index) => (
+                    <Collapsible key={index}>
+                        <CollapsibleTrigger>
+                            <div className='border p-2 bg-slate-100 flex gap-24'>
+                                <div><span className='font-bold mr-2'>Order Date:</span> {moment(item?.createdAt).format('DD/MMM/yyy')}</div>
+                                <div><span className='font-bold mr-2'>Total Amount:</span> {item?.totalOrderAmount}</div>
+                                <div><span className='font-bold mr-2'>Status:</span> PENDING</div>
+                            </div>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                            {/* {item.orderItemList.map(order, index_) => (
+
+                            )} */}
+                        </CollapsibleContent>
+                    </Collapsible>
+                ))}
+            </div>
         </div>
     </div>
   )

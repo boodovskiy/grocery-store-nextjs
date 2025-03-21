@@ -2,7 +2,6 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { STRAPI_BASE_URL } from '@/config'
 import { TrashIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 function CartItemList({items, onDeleteItem}) {
     
