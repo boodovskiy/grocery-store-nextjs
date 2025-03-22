@@ -8,6 +8,7 @@ import {
     CollapsibleTrigger,
   } from "@/components/ui/collapsible"
 import moment from 'moment';
+import MyOrderItem from '@/app/_components/MyOrderItem';
   
 
 const MyOrder = () => {
@@ -56,9 +57,9 @@ const MyOrder = () => {
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            {/* {item.orderItemList.map(order, index_) => (
-
-                            )} */}
+                            {item.orderItemList.map( (order, index_) => (
+                                <MyOrderItem orderItem={order} key={index_}/>
+                            ))}
                         </CollapsibleContent>
                     </Collapsible>
                 ))}
