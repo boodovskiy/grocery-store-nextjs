@@ -80,7 +80,7 @@ const Checkout = () => {
         orderItemList: cartItemList.map(item => ({
           quantity: item.quantity,
           price: item.amount,
-          product: item.product_id[0]?.id,
+          product: item.product_id,
         })),
       }
     }
