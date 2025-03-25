@@ -8,7 +8,7 @@ function MyOrderItem({orderItem}) {
   : 'https://picsum.photos/200';
 
   return (
-    <div className='grid grid-cols-5 w-[55%] mt-3 mb-3 items-center border-b-2'>
+    <div className='grid grid-cols-5 w-[50%] mt-3 mb-3 pb-2 items-center border-b-2'>
         <Image 
             src={imageUrl} 
             width={80} 
@@ -21,7 +21,7 @@ function MyOrderItem({orderItem}) {
             <div>Item Price: {orderItem.product?.mrp}</div>
         </div>
         <div>Quantity: {orderItem.quantity}</div>
-        <div>Price: {orderItem.price}</div>
+        <div>Amount: {orderItem.price}</div>
     </div>
   )
 }
