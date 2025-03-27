@@ -90,7 +90,8 @@ const getMyOrder = (userId, jwt) => axiosClient.get('/orders/?filters[userId][$e
         totalOrderAmount: item.totalOrderAmount,
         paymentId: item.paymentId,
         orderItemList: item.orderItemList,
-        createdAt: item.createdAt
+        createdAt: item.createdAt,
+        status: item.orderStatus
     }));
 
     return orderList;

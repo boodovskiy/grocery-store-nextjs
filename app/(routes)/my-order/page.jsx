@@ -53,7 +53,7 @@ const MyOrder = () => {
                             <div className='border p-2 bg-slate-100 flex gap-24'>
                                 <div><span className='font-bold mr-2'>Order Date:</span> {moment(item?.createdAt).format('DD/MMM/yyy')}</div>
                                 <div><span className='font-bold mr-2'>Total Amount:</span> {item?.totalOrderAmount}</div>
-                                <div><span className='font-bold mr-2'>Status:</span> PENDING</div>
+                                <div><span className='font-bold mr-2'>Status:</span> {item?.status}</div>
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>

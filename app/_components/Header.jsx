@@ -89,12 +89,15 @@ const Header = () => {
   return (
     <div className='flex justify-between p-5 shadow-md'>
         <div className='flex items-center gap-8'>
-            <Image 
-                src='/logo.png'
-                alt="grocery store"
-                width={150}
-                height={100}
-            />
+            <Link href={'/'}>
+              <Image 
+                  src='/logo.png'
+                  alt="grocery store"
+                  width={150}
+                  height={100}
+                  className='cursor-pointer'
+              />
+            </Link>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
