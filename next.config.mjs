@@ -14,6 +14,10 @@ const nextConfig = {
               protocol: "https",
               hostname: "picsum.photos",
             },
+            {
+              protocol: "https",
+              hostname: "grocery-admin-wispy-sun-6673.fly.dev"
+            },
         ],
     }
 };
